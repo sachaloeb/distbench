@@ -1,0 +1,66 @@
+# Dolev's Reliable Communication algorithm configuration
+#
+# 10-node network, 3-connected (k = 2f+1 = 3 for f = 1).
+# Topology: ring p0-p1-...-p9-p0 plus chords every 5 hops,
+#           giving each node exactly 3 neighbours.
+#
+# Run (offline):
+#   cd py && python -m distbench -c ../configs/dolev.yaml -a dolev -t 15 -vv
+#
+# Run (Docker):
+#   python py/dockerize.py -c configs/dolev.yaml -a dolev -t 20 -vv
+#   sudo docker compose up --build
+
+_defaults: &defaults
+  f: 1
+  optimized: false
+  broadcaster: false
+  messages: []
+  byzantine: false
+  byzantine_mode: "passive"
+  byzantine_target: ""
+  delay_min: 0.0
+  delay_max: 0.3
+
+# 3-regular graph: each node i connects to (i-1)%10, (i+1)%10, (i+5)%10
+node0:
+  <<: *defaults
+  neighbours: [node1, node9, node5]
+  broadcaster: true
+  messages: ["Hello from node0"]
+
+node1:
+  <<: *defaults
+  neighbours: [node0, node2, node6]
+
+node2:
+  <<: *defaults
+  neighbours: [node1, node3, node7]
+
+node3:
+  <<: *defaults
+  neighbours: [node2, node4, node8]
+
+node4:
+  <<: *defaults
+  neighbours: [node3, node5, node9]
+
+node5:
+  <<: *defaults
+  neighbours: [node4, node6, node0]
+
+node6:
+  <<: *defaults
+  neighbours: [node5, node7, node1]
+
+node7:
+  <<: *defaults
+  neighbours: [node6, node8, node2]
+
+node8:
+  <<: *defaults
+  neighbours: [node7, node9, node3]
+
+node9:
+  <<: *defaults
+  neighbours: [node8, node0, node4]

@@ -1,0 +1,60 @@
+# Scenario 1: Several nodes simultaneously broadcast (RC-Validity)
+# node0, node2, and node7 each broadcast their own message.
+# Every correct node must deliver all 3 messages.
+
+_defaults: &defaults
+  f: 1
+  optimized: false
+  broadcaster: false
+  messages: []
+  byzantine: false
+  byzantine_mode: "passive"
+  byzantine_target: ""
+  delay_min: 0.0
+  delay_max: 0.3
+
+node0:
+  <<: *defaults
+  neighbours: [node1, node9, node5]
+  broadcaster: true
+  messages: ["Message A from node0"]
+
+node1:
+  <<: *defaults
+  neighbours: [node0, node2, node6]
+
+node2:
+  <<: *defaults
+  neighbours: [node1, node3, node7]
+  broadcaster: true
+  messages: ["Message B from node2"]
+
+node3:
+  <<: *defaults
+  neighbours: [node2, node4, node8]
+
+node4:
+  <<: *defaults
+  neighbours: [node3, node5, node9]
+
+node5:
+  <<: *defaults
+  neighbours: [node4, node6, node0]
+
+node6:
+  <<: *defaults
+  neighbours: [node5, node7, node1]
+
+node7:
+  <<: *defaults
+  neighbours: [node6, node8, node2]
+  broadcaster: true
+  messages: ["Message C from node7"]
+
+node8:
+  <<: *defaults
+  neighbours: [node7, node9, node3]
+
+node9:
+  <<: *defaults
+  neighbours: [node8, node0, node4]

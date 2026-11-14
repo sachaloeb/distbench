@@ -8,7 +8,10 @@ This module provides the core abstractions for implementing distributed algorith
 import asyncio
 import logging
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
-from warnings import deprecated
+try:
+    from warnings import deprecated
+except ImportError:
+    from typing_extensions import deprecated
 
 from distbench.community import PeerId
 from distbench.connection import ConnectionManager
