@@ -1,0 +1,46 @@
+# Figure 1 of the assignment: N=10, connectivity 3, f=1
+_defaults: &defaults
+  f: 1
+  run_time: 5.0
+
+p0:
+  <<: *defaults
+  neighbours: [p1, p7, p9]
+  is_sender: true
+  content: "hello"
+
+p1:
+  <<: *defaults
+  neighbours: [p0, p4, p5]
+
+p2:
+  <<: *defaults
+  neighbours: [p3, p7, p9]
+
+p3:
+  <<: *defaults
+  neighbours: [p2, p6, p7]
+
+p4:
+  <<: *defaults
+  neighbours: [p1, p5, p8]
+
+p5:
+  <<: *defaults
+  neighbours: [p1, p4, p6]
+
+p6:
+  <<: *defaults
+  neighbours: [p3, p5, p8]
+
+p7:
+  <<: *defaults
+  neighbours: [p0, p2, p3]
+
+p8:
+  <<: *defaults
+  neighbours: [p4, p6, p9]
+
+p9:
+  <<: *defaults
+  neighbours: [p0, p2, p8]
