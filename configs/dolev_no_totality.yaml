@@ -1,11 +1,15 @@
 # Scenario 4: No-totality test.
-# node0 is a Byzantine broadcaster (partial mode): it only sends to some
-# neighbours.  This can cause only a SUBSET of correct nodes to deliver
-# the message (f+1=2 paths not reachable for all nodes).
+# node0 is a Byzantine broadcaster (partial mode): it sends to only 1 of its
+# 3 neighbours (node1, determined by sorted order + byzantine_reach=1).
+# With optimized=true, node1 delivers via MD.1.  It then relays an empty-path
+# notification (MD.2).  Other correct nodes receive the content only through
+# node1 — all such paths share node1 as intermediate, so they cannot form
+# 2 disjoint paths from node0.  Result: a strict non-empty subset delivers
+# (exactly node1).
 
 _defaults: &defaults
   f: 1
-  optimized: false
+  optimized: true
   broadcaster: false
   messages: []
   byzantine: false
@@ -15,14 +19,15 @@ _defaults: &defaults
   delay_max: 0.3
 
 node0:
-  # Byzantine broadcaster: only sends to half its neighbours
+  # Byzantine broadcaster: only sends to 2 of 3 neighbours
   f: 1
-  optimized: false
+  optimized: true
   broadcaster: false
   messages: ["Partial byzantine broadcast"]
   byzantine: true
   byzantine_mode: "partial"
   byzantine_target: ""
+  byzantine_reach: 1
   delay_min: 0.0
   delay_max: 0.3
   neighbours: [node1, node9, node5]
