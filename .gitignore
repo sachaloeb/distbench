@@ -11,4 +11,3 @@ downloaded-file-*
 py/results/
 configs/sweeps/
 *.tex
-*.pdf
